@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Reserva Elite | ChrisTech Apple Logistics</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <style>
+        :root {
+            --primary: #0071e3;
+            --primary-dark: #005bb7;
+            --accent: #f5f5f7;
+            --success: #34c759;
+            --text-main: #1d1d1f;
+            --text-secondary: #86868b;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --border-radius: 24px;
+            --shadow-premium: 0 30px 60px rgba(0,0,0,0.12);
+        }
+
+        /* --- RESET & BASE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+        
+        body { 
+            background: radial-gradient(circle at 0% 0%, #f0f7ff 0%, #ffffff 100%);
+            color: var(--text-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- HEADER DINÁMICO --- */
+        .header-elite {
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 15px 6%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .header-elite .brand {
+            color: #fff;
+            font-weight: 800;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-elite .brand i { color: var(--primary); font-size: 1.8rem; }
+
+        .secure-badge {
+            background: rgba(52, 199, 89, 0.15);
+            color: var(--success);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* --- LAYOUT PRINCIPAL --- */
+        .booking-hero {
+            padding: 80px 6% 120px;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        /* --- LADO IZQUIERDO: INFO --- */
+        .info-side h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 800;
+            letter-spacing: -3px;
+            line-height: 1;
+            margin-bottom: 30px;
+        }
+
+        .info-side p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .benefit-card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 20px;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+
+        .benefit-card:hover { transform: translateX(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+
+        .benefit-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .benefit-content h4 { font-weight: 700; margin-bottom: 4px; }
+        .benefit-content p { font-size: 0.9rem; margin-bottom: 0; }
+
+        /* --- LADO DERECHO: EL FORMULARIO --- */
+        .form-container {
+            background: #fff;
+            padding: 50px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-premium);
+            border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .form-header { margin-bottom: 40px; }
+        .form-header h2 { font-size: 1.8rem; font-weight: 800; letter-spacing: -1px; }
+
+        .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .full-width { grid-column: span 2; }
+
+        .field-group { margin-bottom: 25px; }
+        .field-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            padding-left: 5px;
+        }
+
+        .input-style {
+            width: 100%;
+            padding: 18px 22px;
+            border-radius: 16px;
+            border: 1px solid #d2d2d7;
+            background: var(--accent);
+            font-size: 1rem;
+            font-weight: 600;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            outline: none;
+        }
+
+        .input-style:focus {
+            border-color: var(--primary);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+        }
+
+        select.input-style { appearance: none; cursor: pointer; }
+
+        textarea.input-style { resize: none; min-height: 120px; }
+
+        /* --- BOTÓN DE ACCIÓN --- */
+        .btn-submit {
+            width: 100%;
+            padding: 22px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 18px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.4s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-submit:hover {
+            background: var(--primary-dark);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 113, 227, 0.3);
+        }
+
+        /* --- TICKET DE CONFIRMACIÓN (HIDDEN) --- */
+        #success-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(15px);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .ticket-box {
+            background: #fff;
+            width: 100%;
+            max-width: 450px;
+            border-radius: 30px;
+            overflow: hidden;
+            animation: ticketIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .ticket-header {
+            background: var(--primary);
+            color: #fff;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .ticket-header i { font-size: 4rem; margin-bottom: 15px; }
+
+        .ticket-body { padding: 40px; }
+        .ticket-row { display: flex; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px dashed #d2d2d7; padding-bottom: 10px; }
+        .ticket-row span:first-child { color: var(--text-secondary); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; }
+        .ticket-row span:last-child { font-weight: 800; color: var(--text-main); }
+
+        /* --- ANIMACIONES --- */
+        @keyframes ticketIn { from { transform: scale(0.8) translateY(100px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+
+        /* --- CONTACTO RÁPIDO V2 --- */
+        .quick-contact {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .social-bubble {
+            width: 65px;
+            height: 65px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--primary);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: 0.4s;
+        }
+
+        .social-bubble:hover { transform: translateY(-10px); background: var(--primary); color: #fff; }
+
+        /* --- FOOTER MODERNO --- */
+        footer {
+            background: #000;
+            color: #fff;
+            padding: 100px 6% 50px;
+            margin-top: 100px;
+            text-align: center;
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .footer-nav a {
+            color: #fff;
+            opacity: 0.5;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .footer-nav a:hover { opacity: 1; color: var(--primary); }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .booking-hero { grid-template-columns: 1fr; }
+            .info-side { text-align: center; }
+            .benefit-card { text-align: left; }
+        }
+
+        @media (max-width: 600px) {
+            .input-grid { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
+            .form-container { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header-elite">
+        <div class="brand">
+            <i class="ri-apple-fill"></i> ChrisTech Elite
+        </div>
+        <div class="secure-badge">
+            <i class="ri-shield-check-fill"></i> CONEXIÓN ENCRIPTADA SSL
+        </div>
+    </header>
+
+    <main class="booking-hero">
+        
+        <div class="info-side">
+            <p style="color: var(--primary); font-weight: 800; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;">Ventas 2026</p>
+            <h1>Hazlo oficial.<br>Agenda tu entrega.</h1>
+            <p>Selecciona tu horario preferido. Nuestro equipo de logística confirmará tu cita en menos de 15 minutos vía WhatsApp.</p>
+
+            <div class="benefit-card">
+                <div class="benefit-icon"><i class="ri-map-pin-2-line"></i></div>
+                <div class="benefit-content">
+                    <h4>Puntos Seguros CDMX</h4>
+                    <p>Entregas en plazas comerciales premium (Antara, Reforma 222, Mitikah) con seguridad privada.</p>
+                </div>
+            </div>
+
+            <div class="benefit-card">
+                <div class="benefit-icon"><i class="ri-truck-line"></i></div>
+                <div class="benefit-content">
+                    <h4>Envío Priority Nacional</h4>
+                    <p>Si no estás en CDMX, enviamos por DHL Express con seguro de cobertura amplia incluido.</p>
+                </div>
+            </div>
+
+            <div class="benefit-card">
+                <div class="benefit-icon"><i class="ri-verified-badge-line"></i></div>
+                <div class="benefit-content">
+                    <h4>Garantía de Activación</h4>
+                    <p>Probamos el equipo contigo (o enviamos video de validación) antes de finalizar el proceso.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-container">
+            <div class="form-header">
+                <h2>Detalles de la Cita</h2>
+                <p style="font-size: 0.9rem; color: var(--text-secondary);">Completa el formulario oficial para registro de garantía.</p>
+            </div>
+
+            <form id="bookingForm" action="https://formspree.io/f/moqrklpr" method="POST">
+                <div class="input-grid">
+                    <div class="field-group full-width">
+                        <label>Nombre Completo del Titular</label>
+                        <input type="text" name="nombre" id="nombre" class="input-style" placeholder="Ej. Juan Pérez" required>
+                    </div>
+
+                    <div class="field-group">
+                        <label>WhatsApp Móvil</label>
+                        <input type="tel" name="telefono" id="telefono" class="input-style" placeholder="55 0000 0000" required>
+                    </div>
+
+                    <div class="field-group">
+                        <label>Correo Electrónico</label>
+                        <input type="email" name="correo" id="correo" class="input-style" placeholder="usuario@icloud.com" required>
+                    </div>
+
+                    <div class="field-group full-width">
+                        <label>Modelo de iPhone / Gadget</label>
+                        <select name="modelo" id="modelo" class="input-style" required>
+                            <option value="">Selecciona equipo en stock...</option>
+                            <option value="iPhone 16 Pro Max">iPhone 16 Pro Max (Desert Titanium)</option>
+                            <option value="iPhone 16 Pro">iPhone 16 Pro (Natural Titanium)</option>
+                            <option value="iPhone 15 Pro Max">iPhone 15 Pro Max</option>
+                            <option value="MacBook Pro">MacBook Pro M3/M4</option>
+                            <option value="Otro">Otro Gadget (Especificar abajo)</option>
+                        </select>
+                    </div>
+
+                    <div class="field-group">
+                        <label>Tipo de Logística</label>
+                        <select name="logistica" id="logistica" class="input-style" required>
+                            <option value="Personal">Entrega Personal (CDMX)</option>
+                            <option value="Envio">Envío Asegurado (Interior República)</option>
+                        </select>
+                    </div>
+
+                    <div class="field-group">
+                        <label>Fecha de Operación</label>
+                        <input type="text" name="fecha" id="fecha" class="input-style" placeholder="Seleccionar día" required>
+                    </div>
+
+                    <div class="field-group full-width">
+                        <label>Comentarios de Entrega / Notas Adicionales</label>
+                        <textarea name="notas" id="notas" class="input-style" placeholder="Ej. 'Nos vemos en Antara Fashion Hall' o 'Mandar guía de rastreo urgente'"></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="ri-calendar-check-line"></i> CONFIRMAR REGISTRO ELITE
+                </button>
+            </form>
+
+            <p style="text-align: center; font-size: 0.75rem; color: var(--text-secondary); margin-top: 25px;">
+                <i class="ri-lock-2-line"></i> Tus datos están protegidos bajo la Ley de Protección de Datos Personales 2026.
+            </p>
+        </div>
+
+    </main>
+
+    <div class="quick-contact">
+        <a href="mailto:ogchri094@gmail.com" class="social-bubble"><i class="ri-mail-send-line"></i></a>
+        <a href="https://wa.me/525620287619" class="social-bubble" style="color: #25d366;"><i class="ri-whatsapp-line"></i></a>
+        <a href="#" class="social-bubble" style="color: #e4405f;"><i class="ri-instagram-line"></i></a>
+        <a href="#" class="social-bubble" style="color: #000;"><i class="ri-tiktok-line"></i></a>
+    </div>
+
+    <footer>
+        <div class="footer-nav">
+            <a href="index.html">INICIO</a>
+            <a href="stock.html">STOCK</a>
+            <a href="garantia.html">GARANTÍA</a>
+            <a href="referencias.html">REFERENCIAS</a>
+            <a href="agendar.html" style="color: var(--primary); opacity: 1;">AGENDAR</a>
+        </div>
+        <p style="font-weight: 800; letter-spacing: 2px; margin-bottom: 10px;">CHRISTECH ELITE MÉXICO</p>
+        <p style="font-size: 0.8rem; opacity: 0.4;">© 2026 ChrisTech Hub. Distribuidor Premium Independiente. CDMX, México.</p>
+    </footer>
+
+    <div id="success-modal">
+        <div class="ticket-box">
+            <div class="ticket-header">
+                <i class="ri-checkbox-circle-fill"></i>
+                <h3>REGISTRO EXITOSO</h3>
+                <p>Tu orden ha sido procesada</p>
+            </div>
+            <div class="ticket-body">
+                <div class="ticket-row">
+                    <span>Folio</span>
+                    <span id="ticket-folio">CT-8892</span>
+                </div>
+                <div class="ticket-row">
+                    <span>Titular</span>
+                    <span id="ticket-nombre">---</span>
+                </div>
+                <div class="ticket-row">
+                    <span>Equipo</span>
+                    <span id="ticket-equipo">---</span>
+                </div>
+                <div class="ticket-row">
+                    <span>Fecha</span>
+                    <span id="ticket-fecha">---</span>
+                </div>
+                
+                <p style="font-size: 0.8rem; text-align: center; color: var(--text-secondary); margin: 30px 0;">
+                    Estamos abriendo WhatsApp para finalizar los detalles finales...
+                </p>
+
+                <button onclick="closeTicket()" style="width: 100%; padding: 15px; border-radius: 12px; border: none; background: var(--accent); font-weight: 800; cursor: pointer;">
+                    Cerrar y Volver
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        // --- INICIALIZAR CALENDARIO PREMIUM ---
+        flatpickr("#fecha", {
+            minDate: "today",
+            dateFormat: "d-m-Y",
+            disable: [
+                function(date) {
+                    return (date.getDay() === 0); // Desactivar domingos por descanso
+                }
+            ]
+        });
+
+        // --- MANEJO DE FORMULARIO MASTER ---
+        document.getElementById('bookingForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const btn = document.querySelector('.btn-submit');
+            const originalText = btn.innerHTML;
+            
+            // UI Feedback
+            btn.disabled = true;
+            btn.innerHTML = '<i class="ri-loader-4-line" style="animation: spin 1s linear infinite;"></i> PROCESANDO...';
+
+            const data = {
+                nombre: document.getElementById('nombre').value,
+                telefono: document.getElementById('telefono').value,
+                correo: document.getElementById('correo').value,
+                modelo: document.getElementById('modelo').value,
+                logistica: document.getElementById('logistica').value,
+                fecha: document.getElementById('fecha').value,
+                notas: document.getElementById('notas').value || "Sin notas adicionales"
+            };
+
+            // 1. Generar Mensaje WhatsApp
+            const waMessage = `✨ *NUEVA RESERVA CHRISTECH* ✨\n\n` +
+                              `👤 *Titular:* ${data.nombre}\n` +
+                              `📱 *WhatsApp:* ${data.telefono}\n` +
+                              `📧 *Email:* ${data.correo}\n` +
+                              `📱 *Equipo:* ${data.modelo}\n` +
+                              `🚚 *Logística:* ${data.logistica}\n` +
+                              `📅 *Fecha:* ${data.fecha}\n` +
+                              `📝 *Notas:* ${data.notas}\n\n` +
+                              `_Enviado desde el Portal Elite 2026_`;
+
+            // 2. Enviar a Formspree (Backend)
+            try {
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    body: new FormData(this),
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    // Actualizar Ticket Visual
+                    document.getElementById('ticket-nombre').innerText = data.nombre.split(' ')[0];
+                    document.getElementById('ticket-equipo').innerText = data.modelo;
+                    document.getElementById('ticket-fecha').innerText = data.fecha;
+                    document.getElementById('ticket-folio').innerText = 'CT-' + Math.floor(1000 + Math.random() * 9000);
+
+                    // Mostrar Modal
+                    document.getElementById('success-modal').style.display = 'flex';
+
+                    // Redirigir a WhatsApp tras un breve delay
+                    setTimeout(() => {
+                        window.open(`https://wa.me/525620287619?text=${encodeURIComponent(waMessage)}`, '_blank');
+                    }, 2500);
+
+                    this.reset();
+                } else {
+                    alert('Error en el servidor de registro. Intenta por WhatsApp directo.');
+                }
+            } catch (error) {
+                alert('Error de conexión: ' + error);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        });
+
+        function closeTicket() {
+            document.getElementById('success-modal').style.display = 'none';
+        }
+
+        // Animación de rotación para el loader
+        const style = document.createElement('style');
+        style.innerHTML = `@keyframes spin { to { transform: rotate(360deg); } }`;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

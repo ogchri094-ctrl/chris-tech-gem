@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChrisTech</title>
+
+<!-- Fuentes e iconos -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+
+
+<style>
+/* ------------------ BASE ------------------ */
+body{
+  margin:0;
+  font-family:'Poppins', sans-serif;
+  background:#f5f5f7;
+}
+
+/* HEADER */
+header{
+  background:white;
+  padding:15px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.logo{
+  font-weight:600;
+  font-size:1.2rem;
+}
+
+/* BUSCADOR */
+.buscador{
+  padding:10px;
+  width:180px;
+  border-radius:10px;
+  border:1px solid #ddd;
+  transition:0.3s;
+}
+
+.buscador:focus{
+  outline:none;
+  border-color:#25D366;
+}
+
+/* ------------------ GRID ------------------ */
+#cartasContainer{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+  gap:20px;
+  padding:20px;
+}
+
+/* ------------------ CARD ------------------ */
+.carta{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between; /* fuerza que botones queden abajo */
+  background:white;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 6px 15px rgba(0,0,0,0.07);
+  transition:0.3s;
+  opacity:0;
+  transform:translateY(10px);
+  animation:fadeIn 0.5s forwards;
+  min-height:320px; /* altura uniforme */
+}
+
+.carta:hover{
+  transform:translateY(-6px);
+}
+
+/* ANIMACIÓN */
+@keyframes fadeIn{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* ------------------ IMAGEN ------------------ */
+.img-container{
+  background:#f1f5f9;
+  padding:5px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:auto;
+  max-height:200px; /* Desktop */
+}
+
+.img-container img{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  display:block;
+}
+
+/* ------------------ INFORMACIÓN ------------------ */
+.info{
+  padding:15px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.nombre{
+  font-weight:600;
+  font-size:1rem;
+}
+
+.precio{
+  font-weight:700;
+  margin:5px 0;
+  font-size:0.95rem;
+}
+
+.disponible{
+  color:green;
+  font-weight:500;
+}
+
+.vendido{
+  color:red;
+  font-weight:500;
+}
+
+/* ------------------ BOTONES ------------------ */
+.botones{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:8px;
+}
+
+.btn{
+  padding:10px;
+  border-radius:12px;
+  text-decoration:none;
+  text-align:center;
+  font-weight:500;
+  font-size:0.9rem;
+  transition:0.3s;
+}
+
+.btn:hover{
+  opacity:0.9;
+  transform:scale(1.03);
+}
+
+.comprar{
+  background:#25D366;
+  color:white;
+}
+
+.agendar{
+  background:#111;
+  color:white;
+}
+
+/* ------------------ RESPONSIVE ------------------ */
+@media (max-width:600px){
+  header{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+  }
+  .buscador{
+    width:100%;
+  }
+
+  /* Grid tipo Nike: 2 columnas en móviles */
+  #cartasContainer{
+    grid-template-columns:repeat(2, 1fr);
+    gap:12px;
+    padding:10px;
+  }
+
+  .img-container img{
+    max-height:150px; /* altura compacta en móvil */
+  }
+
+  .btn{ font-size:  0.85rem;
+    padding:8px;
+  }
+}
+</style>
+
+</head>
+<body>
+
+<header>
+  <div class="logo">ChrisTech</div>
+  <input type="text" id="buscador" class="buscador" placeholder="Buscar iPhone...">
+</header>
+
+<div id="cartasContainer"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCAeaMia1Ox1DUP5AEAufG-ZphtTgotlTE",
+  authDomain: "christechweb-c0944.firebaseapp.com",
+  projectId: "christechweb-c0944",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const cartasContainer = document.getElementById('cartasContainer');
+const buscador = document.getElementById('buscador');
+
+const numero = "5215620287619";
+
+let productos = [];
+
+async function cargarProductos() {
+  try {
+    const querySnapshot = await getDocs(collection(db, "iPhones"));
+    productos = [];
+    querySnapshot.forEach(doc => productos.push(doc.data()));
+    mostrarProductos(productos);
+  } catch (error) {
+    cartasContainer.innerHTML = "<p>Error al cargar los productos. Intenta más tarde.</p>";
+    console.error(error);
+  }
+}
+
+function mostrarProductos(lista) {
+  cartasContainer.innerHTML = '';
+
+  lista.forEach((p) => {
+    const imagen = p.img && p.img.trim() !== "" 
+      ? p.img 
+      : "https://cdn-icons-png.flaticon.com/512/888/888879.png";
+
+    const mensaje = `Hola, me interesa el ${p.nombre}`;
+
+    const div = document.createElement('div');
+    div.className = 'carta';
+
+    div.innerHTML = `
+      <div class="img-container">
+        <img src="${imagen}" alt="Imagen de ${p.nombre}">
+      </div>
+
+      <div class="info">
+        <div class="nombre">${p.nombre}</div>
+        <div class="precio">${p.precio}</div>
+
+        <div class="${p.stock ? 'disponible' : 'vendido'}">
+          ${p.stock ? 'Disponible' : 'Vendido'}
+        </div>
+
+        ${p.stock ? `
+        <div class="botones">
+          <a class="btn comprar" target="_blank"
+          href="https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}">
+          Comprar
+          </a>
+
+          <a class="btn agendar" target="_blank"
+          href="https://wa.me/${numero}?text=${encodeURIComponent("Hola, quiero agendar una cita para ver el " + p.nombre)}">
+          Agendar
+          </a>
+        </div>
+        ` : ''}
+      </div>
+    `;
+
+    cartasContainer.appendChild(div);
+  });
+}
+
+// 🔍 BUSCADOR INTELIGENTE con debounce
+let timeout;
+buscador.addEventListener('input', () => {
+  clearTimeout(timeout);
+  timeout = setTimeout(() => {
+    const texto = buscador.value.toLowerCase();
+    const filtrados = productos.filter(p => 
+      p.nombre.toLowerCase().includes(texto)
+    );
+    mostrarProductos(filtrados);
+  }, 200);
+});
+
+cargarProductos();
+</script>
+
+</body>
+</html>

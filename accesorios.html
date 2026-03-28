@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ChrisTech Apple | Elite Store Pro</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"/>
+
+    <style>
+        :root {
+            --apple-blue: #0071e3;
+            --apple-dark: #1d1d1f;
+            --apple-silver: #f5f5f7;
+            --apple-border: rgba(0, 0, 0, 0.1);
+            --whatsapp: #25d366;
+            --glass: rgba(255, 255, 255, 0.82);
+            --shadow-pro: 0 30px 60px rgba(0,0,0,0.12);
+            --accent-red: #ff3b30;
+            --transition-smooth: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        /* --- ARQUITECTURA BASE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+        body { background: #fff; color: var(--apple-dark); overflow-x: hidden; scroll-behavior: smooth; }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--apple-silver); }
+        ::-webkit-scrollbar-thumb { background: #d1d1d6; border-radius: 10px; }
+
+        /* --- HEADER ULTRA RESPONSIVO --- */
+        header {
+            position: sticky; top: 0; z-index: 2000;
+            background: var(--glass); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            padding: 0 5%; height: 72px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--apple-border);
+            transition: var(--transition-smooth);
+        }
+
+        .header-left { display: flex; align-items: center; gap: 20px; }
+
+        .brand { font-weight: 800; font-size: 1.3rem; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .brand i { background: var(--apple-dark); color: #fff; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 9px; font-size: 1.1rem; }
+
+        .nav-desktop { display: flex; gap: 25px; margin-left: 30px; }
+        .nav-desktop a { text-decoration: none; color: #6e6e73; font-weight: 600; font-size: 0.9rem; transition: 0.3s; }
+        .nav-desktop a:hover { color: var(--apple-blue); }
+
+        .header-actions { display: flex; align-items: center; gap: 12px; }
+
+        /* Buscador Expandible */
+        .search-wrapper {
+            position: relative;
+            background: rgba(0,0,0,0.05);
+            padding: 8px 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 200px;
+            transition: var(--transition-smooth);
+        }
+        .search-wrapper:focus-within { width: 300px; background: #fff; box-shadow: 0 0 0 3px rgba(0,113,227,0.15); }
+        .search-wrapper input { background: none; border: none; outline: none; width: 100%; font-size: 0.85rem; font-weight: 500; }
+
+        .cart-trigger {
+            background: var(--apple-dark); color: #fff; padding: 10px 18px; border-radius: 14px;
+            font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 8px; cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .cart-trigger:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+
+        /* Menu Hamburguesa (Mobile Only) */
+        .menu-toggle {
+            display: none; font-size: 1.5rem; cursor: pointer; width: 40px; height: 40px;
+            align-items: center; justify-content: center; border-radius: 10px;
+        }
+
+        /* --- MOBILE DRAWER (SIDE MENU) --- */
+        .mobile-menu {
+            position: fixed; top: 0; left: -100%; width: 85%; height: 100%;
+            background: #fff; z-index: 3000; transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            padding: 80px 40px; display: flex; flex-direction: column; gap: 25px;
+            box-shadow: 20px 0 50px rgba(0,0,0,0.1);
+        }
+        .mobile-menu.active { left: 0; }
+        .mobile-menu a { font-size: 1.8rem; font-weight: 800; text-decoration: none; color: var(--apple-dark); letter-spacing: -1px; }
+        .mobile-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4); backdrop-filter: blur(5px); z-index: 2500;
+            display: none; opacity: 0; transition: 0.4s;
+        }
+        .mobile-overlay.active { display: block; opacity: 1; }
+
+        /* --- HERO & FILTROS --- */
+        .hero { padding: 80px 5% 40px; text-align: center; }
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 800; letter-spacing: -2px; line-height: 1; margin-bottom: 15px; }
+        .hero span { color: var(--apple-blue); }
+        .hero p { color: #86868b; font-size: 1.1rem; max-width: 600px; margin: 0 auto 40px; font-weight: 500; }
+
+        .filter-nav {
+            display: flex; justify-content: center; gap: 10px; margin-bottom: 50px;
+            overflow-x: auto; padding: 10px 5%; scrollbar-width: none;
+        }
+        .filter-nav::-webkit-scrollbar { display: none; }
+        
+        .f-btn {
+            padding: 10px 22px; border-radius: 100px; border: 1px solid var(--apple-border);
+            background: #fff; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: 0.3s;
+            white-space: nowrap; display: flex; align-items: center; gap: 6px;
+        }
+        .f-btn.active { background: var(--apple-dark); color: #fff; border-color: var(--apple-dark); }
+
+        /* --- GRID DE PRODUCTOS --- */
+        .products-container {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px; padding: 0 5% 100px; max-width: 1400px; margin: 0 auto;
+        }
+
+        .card {
+            background: #fff; border-radius: 28px; padding: 25px;
+            border: 1px solid var(--apple-border); transition: var(--transition-smooth);
+            display: flex; flex-direction: column; position: relative;
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: var(--shadow-pro); }
+        
+        .card-img {
+            width: 100%; aspect-ratio: 1; border-radius: 20px; overflow: hidden;
+            background: #fbfbfd; margin-bottom: 20px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .card-img img { width: 75%; height: 75%; object-fit: contain; transition: 0.5s ease; }
+        .card:hover .card-img img { transform: scale(1.1); }
+
+        .card-tag {
+            position: absolute; top: 15px; left: 15px; padding: 5px 12px;
+            border-radius: 100px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase;
+        }
+
+        .card-info h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+        .card-info p { font-size: 0.85rem; color: #86868b; line-height: 1.4; margin-bottom: 20px; }
+        
+        .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+        .card-price { font-size: 1.4rem; font-weight: 800; }
+        .add-btn {
+            width: 45px; height: 45px; border-radius: 15px; border: none;
+            background: var(--apple-silver); color: var(--apple-dark);
+            cursor: pointer; transition: 0.3s; font-size: 1.2rem;
+        }
+        .add-btn:hover { background: var(--apple-blue); color: #fff; }
+
+        /* --- CARRITO LATERAL --- */
+        .cart-panel {
+            position: fixed; top: 0; right: -100%; width: 400px; height: 100%;
+            background: #fff; z-index: 4000; transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: flex; flex-direction: column; padding: 30px;
+        }
+        .cart-panel.active { right: 0; }
+        .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .cart-items-list { flex: 1; overflow-y: auto; }
+        
+        .cart-item {
+            display: flex; gap: 15px; align-items: center; margin-bottom: 20px;
+            padding: 10px; border-radius: 15px; background: var(--apple-silver);
+        }
+        .cart-item img { width: 60px; height: 60px; border-radius: 10px; background: #fff; }
+        .cart-checkout { border-top: 1px solid var(--apple-border); padding-top: 20px; }
+
+        /* --- RESPONSIVE MOBILE --- */
+        @media (max-width: 992px) {
+            .nav-desktop, .search-wrapper { display: none; }
+            .menu-toggle { display: flex; }
+            header { padding: 0 20px; height: 65px; }
+            .brand span { font-size: 1.1rem; }
+            .cart-panel { width: 100%; }
+        }
+
+        @media (max-width: 480px) {
+            .brand span { display: none; } /* Solo logo en pantallas muy chicas */
+            .hero { padding-top: 50px; }
+            .hero h1 { font-size: 2.8rem; }
+            .products-container { grid-template-columns: 1fr; }
+        }
+
+        /* TOASTS */
+        #toast-box { position: fixed; top: 80px; right: 20px; z-index: 5000; }
+        .toast { background: var(--apple-dark); color: #fff; padding: 12px 25px; border-radius: 12px; margin-bottom: 10px; animation: slideIn 0.3s forwards; }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-overlay" id="mobile-overlay"></div>
+    <div id="toast-box"></div>
+
+    <header>
+        <div class="header-left">
+            <div class="menu-toggle" onclick="toggleMenu(true)">
+                <i class="ri-menu-2-line"></i>
+            </div>
+            <div class="brand" onclick="location.reload()">
+                <i class="ri-apple-fill"></i>
+                <span>ChrisTech</span>
+            </div>
+            <nav class="nav-desktop">
+                <a href="#">Inicio</a>
+                <a href="#">Equipos</a>
+                <a href="#">Garantía</a>
+                <a href="#">Contacto</a>
+            </nav>
+        </div>
+
+        <div class="header-actions">
+            <div class="search-wrapper">
+                <i class="ri-search-line"></i>
+                <input type="text" placeholder="Buscar accesorio..." onkeyup="handleSearch(this.value)">
+            </div>
+            <div class="cart-trigger" onclick="toggleCart(true)">
+                <i class="ri-shopping-bag-line"></i>
+                <span id="cart-count">0</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="mobile-menu" id="mobile-menu">
+        <div style="position: absolute; top: 20px; right: 20px; font-size: 2rem;" onclick="toggleMenu(false)">
+            <i class="ri-close-line"></i>
+        </div>
+        <a href="#" onclick="toggleMenu(false)">Inicio</a>
+        <a href="#" onclick="toggleMenu(false)">Equipos iPhone</a>
+        <a href="#" onclick="toggleMenu(false)">Accesorios</a>
+        <a href="#" onclick="toggleMenu(false)">Referencias</a>
+        <a href="#" onclick="toggleMenu(false)">Agendar Cita</a>
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+        <p style="color: #86868b; font-size: 0.9rem;">Soporte WhatsApp:<br><strong>+52 56 2028 7619</strong></p>
+    </div>
+
+    <section class="hero">
+        <h1 class="animate__animated animate__fadeIn">Elite <span>Accessories</span>.</h1>
+        <p class="animate__animated animate__fadeIn">Diseño original, rendimiento excepcional. Los mejores complementos para tu ecosistema Apple.</p>
+        
+        <div class="filter-nav animate__animated animate__fadeIn">
+            <button class="f-btn active" onclick="filterItems('all', this)">Todo</button>
+            <button class="f-btn" onclick="filterItems('audio', this)">Audio</button>
+            <button class="f-btn" onclick="filterItems('carga', this)">Carga</button>
+            <button class="f-btn" onclick="filterItems('magsafe', this)">MagSafe</button>
+            <button class="f-btn" onclick="filterItems('cases', this)">Fundas</button>
+            <button class="f-btn" onclick="filterItems('watch', this)">Watch</button>
+        </div>
+    </section>
+
+    <main class="products-container" id="product-grid">
+        </main>
+
+    <div class="cart-panel" id="cart-panel">
+        <div class="cart-header">
+            <h2>Mi Bolsa</h2>
+            <i class="ri-close-circle-fill" style="font-size: 1.8rem; cursor: pointer;" onclick="toggleCart(false)"></i>
+        </div>
+        <div class="cart-items-list" id="cart-list"></div>
+        <div class="cart-checkout">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 20px; font-weight: 800; font-size: 1.2rem;">
+                <span>Subtotal</span>
+                <span id="cart-total">$0 MXN</span>
+            </div>
+            <button onclick="sendOrder()" style="width: 100%; padding: 20px; border-radius: 18px; border: none; background: var(--whatsapp); color: #fff; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                <i class="ri-whatsapp-line"></i> CONFIRMAR PEDIDO
+            </button>
+        </div>
+    </div>
+
+    <footer style="background: var(--apple-silver); padding: 80px 5% 40px; text-align: center; margin-top: 50px;">
+        <i class="ri-apple-fill" style="font-size: 2rem; margin-bottom: 20px; display: block;"></i>
+        <p style="color: #86868b; font-size: 0.9rem;">© 2026 ChrisTech Elite Store. Distribuidor de tecnología Premium.</p>
+    </footer>
+
+    <script>
+        const PRODUCTOS = [
+            { id: 1, name: "AirPods Pro 2 USB-C", price: 4699, cat: "audio", tag: "Nuevo", img: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MTJV3?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1694014871985", desc: "Cancelación de ruido activa y sonido adaptativo." },
+            { id: 2, name: "MagSafe Battery Pack", price: 2199, cat: "magsafe", tag: "Stock", img: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MJWY3?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1625613218000", desc: "Carga inalámbrica magnética sobre la marcha." },
+            { id: 3, name: "Cargador 35W Dual", price: 1199, cat: "carga", tag: "Esencial", img: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MNWP3?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1651877028163", desc: "Carga dos dispositivos de forma rápida y segura." },
+            { id: 4, name: "Case FineWoven MagSafe", price: 1299, cat: "cases", tag: "Premium", img: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MT4M3?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1693521124615", desc: "Material ecológico de alta durabilidad." },
+            { id: 5, name: "Solo Loop Trenzada", price: 1999, cat: "watch", tag: "Style", img: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MYD62?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1599525281000", desc: "Comodidad elástica sin broches." },
+            { id: 6, name: "AirTag (1 pack)", price: 699, cat: "magsafe", tag: "Pop", img: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MX532?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1617761671000", desc: "Encuentra tus objetos fácilmente con el iPhone." }
+        ];
+
+        let cart = [];
+
+        function renderProducts(items) {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = items.map(p => `
+                <div class="card animate__animated animate__fadeInUp">
+                    <span class="card-tag" style="background: ${p.tag === 'Nuevo' ? 'var(--apple-blue)' : '#e8e8ed'}; color: ${p.tag === 'Nuevo' ? '#fff' : '#1d1d1f'}">${p.tag}</span>
+                    <div class="card-img">
+                        <img src="${p.img}" alt="${p.name}">
+                    </div>
+                    <div class="card-info">
+                        <h3>${p.name}</h3>
+                        <p>${p.desc}</p>
+                        <div class="card-footer">
+                            <span class="card-price">$${p.price.toLocaleString()}</span>
+                            <button class="add-btn" onclick="addToCart(${p.id})"><i class="ri-add-line"></i></button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleMenu(show) {
+            document.getElementById('mobile-menu').classList.toggle('active', show);
+            document.getElementById('mobile-overlay').classList.toggle('active', show);
+        }
+
+        function toggleCart(show) {
+            document.getElementById('cart-panel').classList.toggle('active', show);
+        }
+
+        function addToCart(id) {
+            const prod = PRODUCTOS.find(p => p.id === id);
+            cart.push(prod);
+            updateCart();
+            showToast(`+1 ${prod.name}`);
+        }
+
+        function updateCart() {
+            document.getElementById('cart-count').innerText = cart.length;
+            const list = document.getElementById('cart-list');
+            const total = cart.reduce((acc, p) => acc + p.price, 0);
+            
+            list.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <img src="${item.img}">
+                    <div style="flex:1">
+                        <div style="font-weight:700; font-size:0.9rem">${item.name}</div>
+                        <div style="color:var(--apple-blue); font-weight:700">$${item.price.toLocaleString()}</div>
+                    </div>
+                    <i class="ri-delete-bin-line" onclick="removeFromCart(${index})" style="cursor:pointer; color:red"></i>
+                </div>
+            `).join('');
+            
+            document.getElementById('cart-total').innerText = `$${total.toLocaleString()} MXN`;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function filterItems(cat, btn) {
+            document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filtered = cat === 'all' ? PRODUCTOS : PRODUCTOS.filter(p => p.cat === cat);
+            renderProducts(filtered);
+        }
+
+        function handleSearch(val) {
+            const query = val.toLowerCase();
+            const filtered = PRODUCTOS.filter(p => p.name.toLowerCase().includes(query));
+            renderProducts(filtered);
+        }
+
+        function showToast(msg) {
+            const box = document.getElementById('toast-box');
+            const t = document.createElement('div');
+            t.className = 'toast';
+            t.innerText = msg;
+            box.appendChild(t);
+            setTimeout(() => t.remove(), 3000);
+        }
+
+        function sendOrder() {
+            if(cart.length === 0) return alert("Bolsa vacía");
+            let text = "¡Hola ChrisTech! Me gustaría comprar:\n\n";
+            cart.forEach(p => text += `• ${p.name} ($${p.price.toLocaleString()})\n`);
+            text += `\nTotal: ${document.getElementById('cart-total').innerText}`;
+            window.open(`https://wa.me/525620287619?text=${encodeURIComponent(text)}`);
+        }
+
+        // INIT
+        window.onload = () => renderProducts(PRODUCTOS);
+        document.getElementById('mobile-overlay').onclick = () => toggleMenu(false);
+    </script>
+</body>
+</html>

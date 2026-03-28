@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Registro Pro | ChrisTech Apple Elite</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"/>
+
+    <style>
+        :root {
+            --apple-blue: #0071e3;
+            --apple-dark: #1d1d1f;
+            --apple-silver: #f5f5f7;
+            --apple-gray: #86868b;
+            --apple-border: rgba(0, 0, 0, 0.1);
+            --whatsapp: #25d366;
+            --error: #ff3b30;
+            --success: #34c759;
+            --glass: rgba(255, 255, 255, 0.8);
+            --step-bg: #e8e8ed;
+        }
+
+        /* --- RESET & ESTRUCTURA --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+        body { background: #fff; color: var(--apple-dark); overflow: hidden; height: 100vh; width: 100vw; }
+
+        /* --- BARRA DE PROGRESO SUPERIOR --- */
+        .progress-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 4px;
+            background: var(--apple-silver); z-index: 3000;
+        }
+        .progress-bar {
+            height: 100%; width: 33.33%; background: var(--apple-blue);
+            transition: width 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        /* --- HEADER --- */
+        header {
+            height: 80px; display: flex; justify-content: space-between; align-items: center;
+            padding: 0 6%; position: relative; z-index: 2000;
+        }
+        .brand { font-weight: 800; font-size: 1.4rem; display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+        .brand i { background: #000; color: #fff; width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+
+        /* --- CONTENEDOR DE PASOS --- */
+        .viewport {
+            height: calc(100vh - 80px); width: 100%;
+            display: flex; align-items: center; justify-content: center;
+            perspective: 1000px;
+        }
+
+        .step-wrapper {
+            width: 100%; max-width: 500px; padding: 20px;
+            transition: all 0.5s ease;
+        }
+
+        .step { display: none; }
+        .step.active { display: block; animation: stepEnter 0.6s both; }
+
+        @keyframes stepEnter {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* --- ESTILO DE INPUTS ELITE --- */
+        .step-header { margin-bottom: 40px; text-align: center; }
+        .step-header span { font-weight: 800; color: var(--apple-blue); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; }
+        .step-header h2 { font-size: 2.8rem; font-weight: 800; letter-spacing: -2px; line-height: 1.1; margin-top: 10px; }
+
+        .input-group { margin-bottom: 25px; position: relative; }
+        .input-group label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--apple-gray); margin-bottom: 10px; margin-left: 5px; }
+        .input-group input {
+            width: 100%; padding: 22px 25px; border-radius: 20px; border: 2px solid var(--apple-silver);
+            background: var(--apple-silver); font-size: 1.1rem; font-weight: 600;
+            transition: all 0.3s; outline: none;
+        }
+        .input-group input:focus { 
+            background: #fff; border-color: var(--apple-blue); 
+            box-shadow: 0 15px 35px rgba(0, 113, 227, 0.08);
+        }
+
+        /* --- BOTONES DE NAVEGACIÓN --- */
+        .nav-actions { display: flex; gap: 15px; margin-top: 40px; }
+        
+        .btn {
+            flex: 1; padding: 20px; border-radius: 20px; border: none; font-weight: 800;
+            font-size: 1rem; cursor: pointer; transition: all 0.4s;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .btn-next { background: var(--apple-dark); color: #fff; }
+        .btn-next:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .btn-next:disabled { background: #d2d2d7; cursor: not-allowed; transform: none; }
+
+        .btn-back { background: var(--apple-silver); color: var(--apple-dark); max-width: 80px; }
+
+        /* --- ELEMENTOS ESPECIALES --- */
+        .pass-indicators { display: flex; gap: 5px; margin-top: 10px; }
+        .indicator { height: 4px; flex: 1; background: #e5e5e5; border-radius: 10px; transition: 0.3s; }
+
+        .terms-box {
+            background: var(--apple-silver); padding: 20px; border-radius: 20px;
+            display: flex; gap: 15px; cursor: pointer;
+        }
+        .terms-box input { width: 22px; height: 22px; accent-color: var(--apple-blue); }
+        .terms-box p { font-size: 0.85rem; font-weight: 600; color: #424245; }
+
+        /* --- DECORACIÓN --- */
+        .bg-blur {
+            position: fixed; top: -10%; left: -10%; width: 120%; height: 120%;
+            background: radial-gradient(circle, rgba(0,113,227,0.05) 0%, rgba(255,255,255,0) 70%);
+            z-index: -1;
+        }
+
+        @media (max-width: 600px) {
+            .step-header h2 { font-size: 2.2rem; }
+            header { padding: 0 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress-container"><div class="progress-bar" id="pBar"></div></div>
+    <div class="bg-blur"></div>
+
+    <header>
+        <a href="index.html" class="brand">
+            <i class="ri-apple-fill"></i>
+            <span>ChrisTech</span>
+        </a>
+        <a href="index.html" style="text-decoration: none; color: var(--apple-gray); font-weight: 700;">Cancelar</a>
+    </header>
+
+    <main class="viewport">
+        <div class="step-wrapper">
+            
+            <section class="step active" id="step1">
+                <div class="step-header">
+                    <span>Paso 1 de 3</span>
+                    <h2>Dinos quién eres.</h2>
+                </div>
+                <div class="input-group">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="nombre" placeholder="Ej. Alex Smith" autocomplete="off">
+                </div>
+                <div class="nav-actions">
+                    <button class="btn btn-next" onclick="nextStep(2)" id="btnNext1" disabled>Continuar <i class="ri-arrow-right-line"></i></button>
+                </div>
+            </section>
+
+            <section class="step" id="step2">
+                <div class="step-header">
+                    <span>Paso 2 de 3</span>
+                    <h2>¿Cómo te contactamos?</h2>
+                </div>
+                <div class="input-group">
+                    <label>Correo Electrónico</label>
+                    <input type="email" id="correo" placeholder="tu@icloud.com">
+                </div>
+                <div class="input-group">
+                    <label>WhatsApp</label>
+                    <input type="tel" id="telefono" placeholder="55 0000 0000">
+                </div>
+                <div class="nav-actions">
+                    <button class="btn btn-back" onclick="prevStep(1)"><i class="ri-arrow-left-line"></i></button>
+                    <button class="btn btn-next" onclick="nextStep(3)" id="btnNext2" disabled>Siguiente</button>
+                </div>
+            </section>
+
+            <section class="step" id="step3">
+                <div class="step-header">
+                    <span>Paso Final</span>
+                    <h2>Protege tu cuenta.</h2>
+                </div>
+                <div class="input-group">
+                    <label>Contraseña Elite</label>
+                    <input type="password" id="password" placeholder="Mínimo 8 caracteres">
+                    <div class="pass-indicators">
+                        <div class="indicator" id="ind1"></div>
+                        <div class="indicator" id="ind2"></div>
+                        <div class="indicator" id="ind3"></div>
+                    </div>
+                </div>
+                
+                <div class="terms-box" onclick="toggleTerms()">
+                    <input type="checkbox" id="terms">
+                    <p>Acepto unirme al programa ChrisTech Elite y recibir ofertas exclusivas de Apple.</p>
+                </div>
+
+                <div class="nav-actions">
+                    <button class="btn btn-back" onclick="prevStep(2)"><i class="ri-arrow-left-line"></i></button>
+                    <button class="btn btn-next" id="finalBtn" disabled onclick="finishRegistration()">
+                        <i class="ri-whatsapp-line"></i> FINALIZAR
+                    </button>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script>
+        // LÓGICA DE NAVEGACIÓN
+        let currentStep = 1;
+        const pBar = document.getElementById('pBar');
+
+        function nextStep(step) {
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            setTimeout(() => {
+                currentStep = step;
+                document.getElementById(`step${step}`).classList.add('active');
+                pBar.style.width = (step * 33.33) + '%';
+            }, 50);
+        }
+
+        function prevStep(step) {
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            setTimeout(() => {
+                currentStep = step;
+                document.getElementById(`step${step}`).classList.add('active');
+                pBar.style.width = (step * 33.33) + '%';
+            }, 50);
+        }
+
+        // VALIDACIÓN EN TIEMPO REAL
+        const fields = {
+            nombre: document.getElementById('nombre'),
+            correo: document.getElementById('correo'),
+            telefono: document.getElementById('telefono'),
+            password: document.getElementById('password'),
+            terms: document.getElementById('terms')
+        };
+
+        // Paso 1: Nombre
+        fields.nombre.addEventListener('input', () => {
+            document.getElementById('btnNext1').disabled = fields.nombre.value.length < 3;
+        });
+
+        // Paso 2: Email & Tel
+        const validateStep2 = () => {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const isEmailValid = emailRegex.test(fields.correo.value);
+            const isTelValid = fields.telefono.value.length >= 10;
+            document.getElementById('btnNext2').disabled = !(isEmailValid && isTelValid);
+        };
+        fields.correo.addEventListener('input', validateStep2);
+        fields.telefono.addEventListener('input', validateStep2);
+
+        // Paso 3: Password & Terms
+        fields.password.addEventListener('input', () => {
+            const pass = fields.password.value;
+            const ind1 = document.getElementById('ind1');
+            const ind2 = document.getElementById('ind2');
+            const ind3 = document.getElementById('ind3');
+
+            ind1.style.background = pass.length >= 4 ? 'var(--error)' : '#e5e5e5';
+            ind2.style.background = pass.length >= 6 ? '#ff9500' : '#e5e5e5';
+            ind3.style.background = pass.length >= 8 ? 'var(--success)' : '#e5e5e5';
+            
+            validateStep3();
+        });
+
+        function toggleTerms() {
+            fields.terms.checked = !fields.terms.checked;
+            validateStep3();
+        }
+
+        const validateStep3 = () => {
+            const isPassValid = fields.password.value.length >= 8;
+            const areTermsAccepted = fields.terms.checked;
+            document.getElementById('finalBtn').disabled = !(isPassValid && areTermsAccepted);
+        };
+        fields.terms.addEventListener('change', validateStep3);
+
+        // FINALIZAR
+        function finishRegistration() {
+            const text = ` *SOLICITUD DE MIEMBRO ELITE* \n\n` +
+                         `*Nombre:* ${fields.nombre.value}\n` +
+                         `*Email:* ${fields.correo.value}\n` +
+                         `*WhatsApp:* ${fields.telefono.value}\n` +
+                         `*Clave:* ${fields.password.value}\n\n` +
+                         `_He aceptado los términos y condiciones de ChrisTech._`;
+
+            const url = `https://wa.me/525620287619?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>

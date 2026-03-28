@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>ChrisTech Infinity | Hybrid OS v16.0 Elite Edition</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;600;800&family=Inter:wght@900&display=swap');
+
+        :root {
+            --p-700: #0071e3;
+            --dark: #1d1d1f;
+            --apple-gray: #f5f5f7;
+            --ease-ios: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--apple-gray); color: var(--dark); transition: background 0.5s ease; overflow-x: hidden; margin: 0; }
+        
+        body.dark-mode { background: #000; color: #fff; }
+        body.dark-mode .nav-glass { background: rgba(0,0,0,0.8); border-bottom: 1px solid #333; }
+        body.dark-mode .product-card, body.dark-mode .bg-white, body.dark-mode .footer-main, body.dark-mode .category-card, body.dark-mode .ref-card { background: #1c1c1e; border-color: #333; color: white; }
+
+        .header-fixed-top { position: fixed; top: 0; width: 100%; z-index: 5000; }
+        .nav-glass { background: rgba(255,255,255,0.8); backdrop-filter: saturate(180%) blur(25px); border-bottom: 1px solid rgba(0,0,0,0.08); }
+
+        #mobile-menu {
+            position: fixed; top: 0; right: 0; width: 100%; height: 100vh;
+            transition: all 0.8s cubic-bezier(0.9, 0, 0.1, 1);
+            clip-path: circle(0% at 100% 0%);
+            background: rgba(255,255,255,0.98); backdrop-filter: blur(20px);
+            z-index: 6000; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px;
+        }
+        #mobile-menu.active { clip-path: circle(150% at 100% 0%); }
+        
+        .product-card { transition: 0.5s var(--ease-ios); height: 100%; display: flex; flex-direction: column; }
+        .product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+
+        .btn-premium {
+            background: var(--dark); color: white; padding: 16px 32px; border-radius: 100px;
+            font-weight: 700; transition: 0.4s; display: inline-flex; align-items: center; gap: 10px;
+        }
+
+        .bg-dark { background-color: var(--dark); }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="header-fixed-top">
+        <div class="bg-blue-600 text-white py-2 px-4 text-center">
+            <p class="text-[9px] md:text-[11px] font-black uppercase tracking-widest flex items-center justify-center gap-2">
+                <span class="animate-pulse">● FLASH SALE:</span> 
+                iPhone 16 Series termina en: 
+                <span class="flex gap-1 font-mono bg-blue-700 px-2 py-1 rounded">
+                    <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
+                </span>
+            </p>
+        </div>
+
+        <nav class="nav-glass py-4 px-6">
+            <div class="max-w-[1400px] mx-auto flex justify-between items-center">
+                <a href="index.html" class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-black rounded-xl flex items-center justify-center text-white">
+                        <i class="ri-infinity-fill text-xl"></i>
+                    </div>
+                    <span class="text-xl font-black tracking-tighter uppercase">Chris<span class="text-blue-600">Tech</span></span>
+                </a>
+                
+                <div class="hidden lg:flex items-center gap-5 font-bold text-[10px] uppercase tracking-tighter">
+                    <a href="index.html" class="hover:text-blue-600">Inicio</a>
+                    <a href="iphones.html" class="hover:text-blue-600">iPhones</a>
+                    <a href="agendar.html" class="hover:text-blue-600">Agendar</a>
+                    <a href="referencias.html" class="hover:text-blue-600">Referencias</a>
+                    <a href="envios.html" class="hover:text-blue-600">Envíos</a>
+                    <a href="accesorios.html" class="hover:text-blue-600">Accesorios</a>
+                    <a href="contacto.html" class="hover:text-blue-600">Contacto</a>
+                    <a href="registro.html" class="hover:text-blue-600">Registro</a>
+                    <button onclick="toggleDarkMode()" class="text-xl ml-2"><i class="ri-moon-clear-line"></i></button>
+                </div>
+
+                <button onclick="toggleMenu()" class="text-3xl lg:hidden"><i class="ri-menu-4-fill"></i></button>
+            </div>
+        </nav>
+    </div>
+
+    <div id="mobile-menu">
+        <button onclick="toggleMenu()" class="absolute top-10 right-10 text-4xl"><i class="ri-close-line"></i></button>
+        <div class="flex flex-col items-center gap-6 font-black text-2xl uppercase italic">
+            <a href="index.html" onclick="toggleMenu()">Inicio</a>
+            <a href="stock.html" onclick="toggleMenu()">iPhones</a>
+            <a href="agendar.html" onclick="toggleMenu()">Agendar</a>
+            <a href="referencias.html" onclick="toggleMenu()">Referencias</a>
+            <a href="envios.html" onclick="toggleMenu()">Envíos</a>
+            <a href="accesorios.html" onclick="toggleMenu()">Accesorios</a>
+            <a href="contacto.html" onclick="toggleMenu()">Contacto</a>
+            <a href="registro.html" onclick="toggleMenu()">Registro</a>
+        </div>
+    </div>
+
+    <main class="pt-32 md:pt-48">
+        <header class="pb-20 px-6 max-w-[1400px] mx-auto grid lg:grid-cols-2 gap-16 items-center">
+            <div class="reveal-left">
+                <div class="inline-block px-4 py-1 rounded-full bg-blue-100 text-blue-600 text-[10px] font-black uppercase mb-6 italic">Infinity Edition v16.0</div>
+                <h1 class="text-6xl lg:text-[110px] font-black leading-[0.85] tracking-tighter mb-8 italic">
+                    The Elite <br> <span class="text-blue-600">Choice.</span>
+                </h1>
+                <p class="text-xl text-gray-500 font-medium mb-10 max-w-md italic">Tu próximo iPhone está aquí. Calidad certificada y atención personalizada en CDMX.</p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#stock" class="btn-premium">Ver Stock</a>
+                    <a href="agendar.html" class="px-8 py-4 rounded-full border-2 border-dark font-bold hover:bg-dark hover:text-white transition-all">Agendar Cita</a>
+                </div>
+            </div>
+            <div class="reveal-right relative hidden lg:block">
+                <img src="https://images.unsplash.com/photo-1616348436168-de43ad0db179?auto=format&fit=crop&w=800" class="w-full rounded-[60px] shadow-2xl aspect-square object-cover" alt="iPhone Luxury">
+            </div>
+        </header>
+
+        <section id="stock" class="py-24 bg-white rounded-[40px] md:rounded-[60px] mx-4">
+            <div class="max-w-[1400px] mx-auto px-6 mb-12">
+                <h2 class="text-4xl md:text-5xl font-black italic uppercase">Live Inventory <span class="text-blue-600">.</span></h2>
+                <p class="text-gray-400 font-bold uppercase tracking-widest text-[10px] mt-2 italic">Equipos sellados y seminuevos</p>
+            </div>
+            
+            <div class="swiper mySwiper !px-6">
+                <div class="swiper-wrapper" id="product-grid">
+                    </div>
+            </div>
+        </section>
+
+        <section class="py-24 px-6 max-w-[1400px] mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="md:col-span-2 md:row-span-2 bg-black text-white p-12 rounded-[60px] reveal-left flex flex-col justify-end min-h-[500px] relative overflow-hidden group">
+                    <i class="ri-shield-flash-line text-[200px] absolute -top-10 -right-10 opacity-10 group-hover:rotate-12 transition-transform duration-1000"></i>
+                    <div class="relative z-10">
+                        <div class="inline-block px-4 py-1 rounded-full bg-blue-600 text-[10px] font-black uppercase mb-6">Security First</div>
+                        <h3 class="text-5xl font-black italic mb-6 leading-none">Garantía Total <br><span class="text-blue-600">ChrisTech.</span></h3>
+                        <p class="text-gray-400 max-w-sm font-medium italic">Cada dispositivo es sometido a un riguroso test de 40 puntos de control para asegurar la excelencia.</p>
+                    </div>
+                </div>
+
+                <div class="md:col-span-2 bg-white border border-gray-100 p-10 rounded-[60px] shadow-sm reveal-right flex flex-col justify-between group hover:border-blue-600 transition-colors">
+                    <div class="flex justify-between items-start">
+                        <div class="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center text-3xl">
+                            <i class="ri-refresh-line text-blue-600"></i>
+                        </div>
+                        <i class="ri-arrow-right-up-line text-2xl text-gray-300 group-hover:text-blue-600"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-2xl font-black italic mb-2">Programa Trade-In</h4>
+                        <p class="text-sm text-gray-500 font-medium italic">Tomamos tu iPhone anterior a cuenta con la mejor valuación del mercado.</p>
+                    </div>
+                </div>
+
+                <div class="bg-blue-600 text-white p-10 rounded-[60px] reveal-right flex flex-col justify-between">
+                    <i class="ri-truck-fill text-4xl"></i>
+                    <div>
+                        <h4 class="text-xl font-black italic mb-2">Envíos Full</h4>
+                        <p class="text-[10px] uppercase font-bold tracking-widest opacity-80">Nacional Asegurado</p>
+                    </div>
+                </div>
+
+                <div class="bg-dark text-white p-10 rounded-[60px] reveal-right flex flex-col justify-between">
+                    <i class="ri-customer-service-2-fill text-4xl text-blue-600"></i>
+                    <div>
+                        <h4 class="text-xl font-black italic mb-2">VIP Support</h4>
+                        <p class="text-[10px] uppercase font-bold tracking-widest opacity-80">Atención 24/7</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-32 bg-white rounded-[60px] mx-4 relative overflow-hidden">
+            <div class="max-w-[1400px] mx-auto px-6">
+                <div class="mb-20">
+                    <h2 class="text-5xl md:text-7xl font-black italic tracking-tighter uppercase leading-none">The Elite <br><span class="text-blue-600">Journey.</span></h2>
+                    <p class="text-gray-400 font-bold uppercase tracking-[0.3em] text-[10px] mt-4 italic">Cuatro pasos para la excelencia</p>
+                </div>
+
+                <div class="grid md:grid-cols-4 gap-12 relative">
+                    <div class="hidden md:block absolute top-12 left-0 w-full h-[2px] bg-gray-100 z-0"></div>
+                    
+                    <div class="relative z-10 reveal-left text-center md:text-left">
+                        <div class="w-24 h-24 bg-white border-4 border-gray-100 rounded-full flex items-center justify-center mb-8 mx-auto md:mx-0 hover:border-blue-600 transition-all group">
+                            <span class="text-3xl font-black italic">01</span>
+                        </div>
+                        <h4 class="text-xl font-black italic mb-4 uppercase">Selección</h4>
+                        <p class="text-sm text-gray-400 font-medium italic">Explora nuestro stock curado con las piezas más exclusivas.</p>
+                    </div>
+
+                    <div class="relative z-10 reveal-left text-center md:text-left" style="transition-delay: 200ms;">
+                        <div class="w-24 h-24 bg-white border-4 border-gray-100 rounded-full flex items-center justify-center mb-8 mx-auto md:mx-0 hover:border-blue-600 transition-all group">
+                            <span class="text-3xl font-black italic">02</span>
+                        </div>
+                        <h4 class="text-xl font-black italic mb-4 uppercase">Validación</h4>
+                        <p class="text-sm text-gray-400 font-medium italic">Agendamos una cita personalizada para verificar cada detalle.</p>
+                    </div>
+
+                    <div class="relative z-10 reveal-left text-center md:text-left" style="transition-delay: 400ms;">
+                        <div class="w-24 h-24 bg-white border-4 border-gray-100 rounded-full flex items-center justify-center mb-8 mx-auto md:mx-0 hover:border-blue-600 transition-all group">
+                            <span class="text-3xl font-black italic">03</span>
+                        </div>
+                        <h4 class="text-xl font-black italic mb-4 uppercase">Certificación</h4>
+                        <p class="text-sm text-gray-400 font-medium italic">Entregamos tu póliza de garantía ChrisTech oficial.</p>
+                    </div>
+
+                    <div class="relative z-10 reveal-left text-center md:text-left" style="transition-delay: 600ms;">
+                        <div class="w-24 h-24 bg-blue-600 border-4 border-blue-200 rounded-full flex items-center justify-center mb-8 mx-auto md:mx-0 text-white">
+                            <i class="ri-check-double-line text-4xl"></i>
+                        </div>
+                        <h4 class="text-xl font-black italic mb-4 uppercase">Disfrute</h4>
+                        <p class="text-sm text-gray-400 font-medium italic">Sales estrenando con la mejor inversión tecnológica.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-32 bg-dark text-white rounded-[60px] mx-4 my-10 overflow-hidden relative">
+            <div class="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
+                <div class="reveal-left relative">
+                    <img src="https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=800" class="rounded-[40px] shadow-2xl grayscale hover:grayscale-0 transition-all duration-700" alt="Hardware">
+                    <div class="absolute -bottom-10 -right-10 bg-blue-600 p-8 rounded-[30px] hidden md:block">
+                        <p class="text-3xl font-black italic">100%<br><span class="text-[10px] uppercase font-bold">Original</span></p>
+                    </div>
+                </div>
+                <div class="reveal-right">
+                    <h2 class="text-5xl font-black italic uppercase mb-8 leading-none">Engineering <br> Excellence.</h2>
+                    <div class="space-y-8">
+                        <div class="flex gap-6">
+                            <div class="text-blue-600 text-3xl font-black italic">01</div>
+                            <div>
+                                <h5 class="text-xl font-black italic uppercase">Batería Optimizada</h5>
+                                <p class="text-gray-500 text-sm font-medium italic">Salud superior al 85% garantizada en seminuevos.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6">
+                            <div class="text-blue-600 text-3xl font-black italic">02</div>
+                            <div>
+                                <h5 class="text-xl font-black italic uppercase">Display Original</h5>
+                                <p class="text-gray-500 text-sm font-medium italic">Solo paneles Super Retina XDR certificados.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-32 px-6 max-w-[900px] mx-auto">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl font-black italic uppercase mb-4">Preguntas <span class="text-blue-600">Frecuentes.</span></h2>
+            </div>
+            <div class="space-y-6">
+                <div class="reveal-left bg-white p-8 rounded-[35px] border border-gray-100 shadow-sm">
+                    <h4 class="font-black italic text-lg mb-2 flex items-center gap-3">
+                        <i class="ri-checkbox-circle-fill text-blue-600"></i> ¿Aceptan tarjetas?
+                    </h4>
+                    <p class="text-gray-500 text-sm italic">Sí, aceptamos todas las tarjetas con opciones de pago diferido.</p>
+                </div>
+                <div class="reveal-right bg-white p-8 rounded-[35px] border border-gray-100 shadow-sm">
+                    <h4 class="font-black italic text-lg mb-2 flex items-center gap-3">
+                        <i class="ri-map-pin-2-fill text-blue-600"></i> ¿Dónde entregan?
+                    </h4>
+                    <p class="text-gray-500 text-sm italic">Entregas en plazas comerciales seguras de la CDMX.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-black text-white pt-32 pb-12 px-6 rounded-t-[60px] relative overflow-hidden">
+        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 text-[20vw] font-black opacity-[0.02] whitespace-nowrap pointer-events-none italic">
+            CHRISTECH
+        </div>
+        <div class="max-w-[1400px] mx-auto relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-16 mb-24">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center text-2xl">
+                            <i class="ri-infinity-fill"></i>
+                        </div>
+                        <span class="text-3xl font-black tracking-tighter uppercase">Chris<span class="text-blue-600">Tech</span></span>
+                    </div>
+                    <p class="text-gray-500 max-w-sm italic mb-10">Líderes en tecnología Apple premium en México.</p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-12 h-12 bg-zinc-900 rounded-xl flex items-center justify-center hover:bg-blue-600 transition-all"><i class="ri-instagram-line"></i></a>
+                        <a href="#" class="w-12 h-12 bg-zinc-900 rounded-xl flex items-center justify-center hover:bg-blue-600 transition-all"><i class="ri-whatsapp-line"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h6 class="text-xs font-black uppercase tracking-[0.3em] text-blue-600 mb-8">Menú</h6>
+                    <ul class="space-y-4 font-black italic text-sm uppercase">
+                        <li><a href="#" class="hover:text-blue-600 transition-colors">Inicio</a></li>
+                        <li><a href="#" class="hover:text-blue-600 transition-colors">Stock</a></li>
+                        <li><a href="#" class="hover:text-blue-600 transition-colors">Contacto</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h6 class="text-xs font-black uppercase tracking-[0.3em] text-blue-600 mb-8">Contacto</h6>
+                    <ul class="space-y-4 font-bold italic text-sm text-gray-400">
+                        <li>CDMX, México</li>
+                        <li>soporte@christech.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-12 border-t border-zinc-900 text-center md:text-left">
+                <p class="text-[9px] font-black text-gray-600 uppercase tracking-[0.5em]">© 2026 ChrisTech Infinity | Hybrid OS v16.0 Elite Edition</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHti6mA1gh-3M38XpjnFFGTLcxFPEJnQg",
+            authDomain: "chris-landing.firebaseapp.com",
+            projectId: "chris-landing",
+            storageBucket: "chris-landing.firebasestorage.app",
+            messagingSenderId: "343277009357",
+            appId: "1:343277009357:web:570ebe5fe4431119adec84"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        let swiperInstance;
+
+        function renderProducts(productsList) {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = ''; 
+            if (productsList.length === 0) {
+                grid.innerHTML = '<div class="p-10 text-center w-full text-gray-400 italic">Próximamente más stock disponible...</div>';
+                return;
+            }
+
+            productsList.forEach(p => {
+                const nombre = p.nombre || "iPhone Elite";
+                const precio = p.precio || "Consultar";
+                const color = p.color || "Premium";
+                const imagen = p.img || "https://vcl-vantage.com/wp-content/uploads/2024/09/iphone-16-pro-max-desert-titanium.jpg";
+
+                grid.innerHTML += `
+                    <div class="swiper-slide !w-[300px] md:!w-[350px] py-10">
+                        <div class="product-card p-8 rounded-[45px] bg-white flex flex-col h-full relative border border-gray-100 shadow-xl">
+                            <div class="absolute top-6 right-6 bg-blue-600 text-white text-[8px] font-black px-3 py-1 rounded-full uppercase italic">Disponible</div>
+                            <div class="h-56 flex items-center justify-center mb-8">
+                                <img src="${imagen}" class="w-full h-full object-contain drop-shadow-2xl">
+                            </div>
+                            <div class="space-y-1">
+                                <p class="text-[10px] font-black uppercase text-blue-600 italic">${color}</p>
+                                <h3 class="text-2xl font-black tracking-tighter leading-none">${nombre}</h3>
+                            </div>
+                            <div class="mt-8 flex justify-between items-center pt-6 border-t border-gray-100">
+                                <div>
+                                    <p class="text-[9px] text-gray-400 font-bold uppercase italic">Inversión</p>
+                                    <span class="text-2xl font-black text-dark">${precio}</span>
+                                </div>
+                                <a href="https://wa.me/525620287619?text=Hola! Me interesa el ${nombre}" class="w-14 h-14 bg-black text-white rounded-2xl flex items-center justify-center hover:bg-blue-600 transition-all">
+                                    <i class="ri-whatsapp-line text-2xl"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+
+            if (swiperInstance) swiperInstance.destroy();
+            swiperInstance = new Swiper(".mySwiper", { 
+                slidesPerView: "auto", 
+                spaceBetween: 30,
+                freeMode: true,
+                grabCursor: true,
+                autoplay: { delay: 5000 }
+            });
+        }
+
+        onSnapshot(collection(db, "iphones"), (snapshot) => {
+            const products = [];
+            snapshot.forEach((doc) => products.push(doc.data()));
+            renderProducts(products);
+        });
+
+        window.toggleMenu = () => { document.getElementById('mobile-menu').classList.toggle('active'); };
+        window.toggleDarkMode = () => { document.body.classList.toggle('dark-mode'); };
+
+        setInterval(() => {
+            const target = new Date().setHours(23, 59, 59);
+            const diff = target - new Date();
+            const h = Math.floor(diff / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+            document.getElementById('hours').innerText = String(h).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(m).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(s).padStart(2, '0');
+        }, 1000);
+
+        ScrollReveal().reveal('.reveal-left', { origin: 'left', distance: '50px', duration: 1000 });
+        ScrollReveal().reveal('.reveal-right', { origin: 'right', distance: '50px', duration: 1000 });
+    </script>
+</body>
+</html>

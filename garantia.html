@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Garantía - ChrisTech Ultra Pro</title>
+
+  <!-- GOOGLE FONTS -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- REMIX ICONS -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
+    body { background:#f0f4ff; color:#1e293b; scroll-behavior:smooth; overflow-x:hidden; }
+    a { text-decoration:none; color:inherit; }
+
+    header {
+      background: linear-gradient(135deg,#3b82f6,#60a5fa,#2563eb);
+      color:white;
+      padding:2rem 1rem;
+      text-align:center;
+      position: sticky;
+      top:0;
+      z-index:1000;
+      box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    }
+    header h1 { font-family:'Roboto', sans-serif; font-size:2.5rem; font-weight:700; margin-bottom:0.5rem; }
+    header p { font-size:1.1rem; font-weight:400; opacity:0.9; }
+
+    .container { max-width:1200px; margin:3rem auto; padding:0 1rem; }
+
+    /* ------------------- CARRUSEL GARANTIA ------------------- */
+    .garantia-section { padding:3rem 0; position:relative; }
+    .garantia-section h2 { font-size:2.2rem; color:#2563eb; text-align:center; margin-bottom:2rem; font-family:'Roboto', sans-serif; }
+
+    .garantia-carousel {
+      display:flex;
+      gap:2rem;
+      overflow-x:auto;
+      scroll-behavior:smooth;
+      padding-bottom:1rem;
+      cursor: grab;
+    }
+    .garantia-carousel::-webkit-scrollbar { display:none; }
+
+    .card {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(10px);
+      border-radius:1.5rem;
+      flex:0 0 280px;
+      padding:2rem 1.5rem;
+      box-shadow:0 10px 25px rgba(0,0,0,0.08);
+      text-align:center;
+      transition:transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .card:hover { transform:translateY(-10px) scale(1.05); box-shadow:0 15px 35px rgba(0,0,0,0.15); }
+    .card i { font-size:3rem; color:#2563eb; margin-bottom:1rem; transition:transform 0.4s ease; }
+    .card:hover i { transform: rotate(15deg) scale(1.2); }
+    .card h3 { font-size:1.3rem; font-weight:600; margin-bottom:0.8rem; }
+    .card p { font-size:0.95rem; color:#334155; line-height:1.5; }
+
+    /* ------------------- TESTIMONIOS ------------------- */
+    .testimonios-section { margin:5rem 0; }
+    .testimonios-section h2 { font-size:2rem; text-align:center; color:#2563eb; margin-bottom:2rem; }
+    .testimonios-carousel { display:flex; gap:2rem; overflow-x:auto; scroll-behavior:smooth; padding-bottom:1rem; cursor: grab; }
+    .testimonios-carousel::-webkit-scrollbar { display:none; }
+    .testimonial-card {
+      background:white;
+      border-radius:1.2rem;
+      padding:1.5rem;
+      flex:0 0 250px;
+      text-align:center;
+      box-shadow:0 8px 20px rgba(0,0,0,0.1);
+      transition:transform 0.3s ease;
+    }
+    .testimonial-card:hover { transform:scale(1.05); }
+    .testimonial-card .avatar { width:60px; height:60px; border-radius:50%; margin-bottom:1rem; object-fit:cover; border:2px solid #2563eb; }
+    .testimonial-card p { font-size:0.9rem; color:#334155; margin-bottom:0.8rem; }
+    .testimonial-card h4 { font-size:0.95rem; color:#1e293b; font-weight:600; }
+
+    /* ------------------- FAQ ------------------- */
+    .faq-section { margin:5rem 0; padding:2rem; background:#ffffff; border-radius:1.5rem; box-shadow:0 10px 25px rgba(0,0,0,0.05); }
+    .faq-section h2 { font-size:2rem; color:#2563eb; text-align:center; margin-bottom:2rem; }
+    .faq { margin-bottom:1.5rem; cursor:pointer; }
+    .faq h4 { font-weight:600; display:flex; justify-content:space-between; align-items:center; font-size:1.1rem; padding:0.8rem 1rem; background:#f0f4ff; border-radius:0.8rem; }
+    .faq p { display:none; padding:0.5rem 1rem; font-size:0.95rem; color:#334155; }
+    .faq.active p { display:block; }
+
+    footer { background:#1e293b; color:white; text-align:center; padding:2rem 1rem; margin-top:3rem; }
+    footer p { margin-bottom:0.5rem; font-size:0.95rem; }
+    footer a { color:#60a5fa; margin:0 0.5rem; transition:color 0.3s ease; }
+    footer a:hover { color:#3b82f6; }
+
+    @media(max-width:1024px){ .card{flex:0 0 240px;} .testimonial-card{flex:0 0 220px;} }
+    @media(max-width:768px){ .garantia-carousel,.testimonios-carousel{flex-direction:row; justify-content:flex-start;} .card{flex:0 0 220px;} header h1{font-size:2rem;} header p{font-size:1rem;} }
+    @media(max-width:480px){ .card{flex:0 0 180px; padding:1.5rem 1rem;} header h1{font-size:1.6rem;} header p{font-size:0.9rem;} }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>ChrisTech</h1>
+    <p>Garantía y seguridad en todos nuestros iPhones</p>
+  </header>
+
+  <div class="container">
+    <section class="garantia-section">
+      <h2>Nuestra Garantía</h2>
+      <div class="garantia-carousel" id="garantiaCarousel">
+        <div class="card"><i class="ri-shield-check-fill"></i><h3>100% Original</h3><p>Todos nuestros iPhones son originales, revisados y con garantía de fábrica.</p></div>
+        <div class="card"><i class="ri-refresh-line"></i><h3>Garantía 1 Año</h3><p>Reparación o reemplazo garantizado durante el primer año si surge algún problema.</p></div>
+        <div class="card"><i class="ri-customer-service-2-fill"></i><h3>Soporte Personalizado</h3><p>Atención directa y personalizada para ayudarte en todo momento.</p></div>
+        <div class="card"><i class="ri-thumb-up-fill"></i><h3>Clientes Satisfechos</h3><p>Más de 500 clientes felices con sus iPhones, recomendando nuestro servicio.</p></div>
+        <div class="card"><i class="ri-star-fill"></i><h3>Calidad Premium</h3><p>Productos revisados y certificados para ofrecerte la mejor experiencia.</p></div>
+      </div>
+    </section>
+
+    <section class="testimonios-section">
+      <h2>Qué dicen nuestros clientes</h2>
+      <div class="testimonios-carousel">
+        <div class="testimonial-card">
+          <img src="clientes.jpeg" alt="Ana G." class="avatar">
+          <p>"Excelente servicio y entrega rápida. ¡Mi iPhone llegó en perfectas condiciones!"</p>
+          <h4>- Ana G.</h4>
+        </div>
+        <div class="testimonial-card">
+          <img src="clientes.jpeg" alt="Luis M." class="avatar">
+          <p>"Recomendado 100%, atención personalizada y productos originales."</p>
+          <h4>- Luis M.</h4>
+        </div>
+        <div class="testimonial-card">
+          <img src="clientes.jpeg" alt="Carla P." class="avatar">
+          <p>"Super confiable. Compré un iPhone y todo perfecto, muy profesionales."</p>
+          <h4>- Carla P.</h4>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Preguntas Frecuentes</h2>
+      <div class="faq"><h4>¿Todos los iPhones tienen garantía? <i class="ri-add-line"></i></h4><p>Sí, todos nuestros iPhones cuentan con garantía de 1 año.</p></div>
+      <div class="faq"><h4>¿Puedo cambiar mi iPhone si tiene un defecto? <i class="ri-add-line"></i></h4><p>Claro, dentro del periodo de garantía se puede reparar o reemplazar.</p></div>
+      <div class="faq"><h4>¿Ofrecen soporte técnico? <i class="ri-add-line"></i></h4><p>Sí, nuestro equipo te asesora en todo momento.</p></div>
+    </section>
+  </div>
+
+  <footer>
+    <p>© 2026 ChrisTech - Venta de iPhones en CDMX</p>
+    <p><a href="index.html">Inicio</a> | <a href="stock.html">Stock</a> | <a href="garantia.html">Garantía</a> | <a href="contacto.html">Contacto</a></p>
+  </footer>
+
+  <script>
+    // ----------------- FAQ TOGGLE -----------------
+    const faqs = document.querySelectorAll('.faq');
+    faqs.forEach(faq => { faq.addEventListener('click', () => { faq.classList.toggle('active'); }); });
+
+    // ----------------- CARRUSEL TOUCH + AUTOPLAY -----------------
+    const carousel = document.getElementById('garantiaCarousel');
+    let isDown = false, startX, scrollLeft;
+
+    carousel.addEventListener('mousedown', e => {
+      isDown = true;
+      carousel.classList.add('active');
+      startX = e.pageX - carousel.offsetLeft;
+      scrollLeft = carousel.scrollLeft;
+    });
+    carousel.addEventListener('mouseleave', () => isDown = false);
+    carousel.addEventListener('mouseup', () => isDown = false);
+    carousel.addEventListener('mousemove', e => {
+      if(!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - carousel.offsetLeft;
+      const walk = (x - startX) * 2; // velocidad scroll
+      carousel.scrollLeft = scrollLeft - walk;
+    });
+
+    // Touch events
+    carousel.addEventListener('touchstart', e => {
+      isDown = true;
+      startX = e.touches[0].pageX - carousel.offsetLeft;
+      scrollLeft = carousel.scrollLeft;
+    });
+    carousel.addEventListener('touchend', () => isDown = false);
+    carousel.addEventListener('touchmove', e => {
+      if(!isDown) return;
+      const x = e.touches[0].pageX - carousel.offsetLeft;
+      const walk = (x - startX) * 2;
+      carousel.scrollLeft = scrollLeft - walk;
+    });
+
+    // Autoplay suave
+    let autoScroll = () => { carousel.scrollLeft += 1; if(carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth) carousel.scrollLeft = 0; requestAnimationFrame(autoScroll); }
+    requestAnimationFrame(autoScroll);
+  </script>
+
+</body>
+</html>
